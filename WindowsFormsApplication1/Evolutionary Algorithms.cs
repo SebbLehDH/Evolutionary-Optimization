@@ -203,7 +203,7 @@ namespace WindowsFormsApplication1
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "Text|*.txt";
+            saveFile.Filter = "Evo-Path|*.evo";
             saveFile.Title = "Save current Path";
             saveFile.ShowDialog();
 
@@ -228,13 +228,58 @@ namespace WindowsFormsApplication1
             }
             catch (System.IO.IOException)
             {
-
+                MessageBox.Show("Fehler beim Speichern!");
             }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            System.IO.Stream fs = null;
+            System.IO.StreamReader fr = null;
 
+            path_format format = new path_format();
+
+            String pathString = null;
+
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = "C:\\";
+            openFile.Filter = "Evo-Path|*.evo";
+            openFile.Title = "Open Path";
+            openFile.RestoreDirectory = true;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (openFile.OpenFile() != null)
+                    {
+                        using (fs = openFile.OpenFile())
+                        {
+                            fr = new System.IO.StreamReader(openFile.FileName);
+                            pathString = fr.ReadToEnd();
+                            fullPath = format.toPoints(pathString);
+                            for (int i = 0; i < fullPath.Length; i++)
+                            {
+
+                            }
+                            this.Refresh();
+                        }
+                    }
+
+                }
+                catch (System.IO.IOException ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. " + "Original error: " + ex.Message); 
+
+                }
+            }
+            if (fs != null)
+            {
+                fs.Close();
+            }
+            if (fr != null)
+            {
+                fr.Close();
+            }
         }
 
 
@@ -436,7 +481,14 @@ namespace WindowsFormsApplication1
             {
                 for (int i = 0; i < points.Length; i++)
                 {
-                    pathString += points[i].X.ToString() + "," + points[i].Y.ToString() + "|";
+                    if (i == points.Length - 1)
+                    {
+                        pathString += points[i].X.ToString() + "," + points[i].Y.ToString() + ";";
+                    }
+                    else
+                    {
+                        pathString += points[i].X.ToString() + "," + points[i].Y.ToString() + "|";
+                    }
                 }
 
             }
@@ -446,6 +498,55 @@ namespace WindowsFormsApplication1
             }
 
             return pathString;
+        }
+
+        public Point[] toPoints(String pathString)
+        {
+            Point[] fullPath = new Point[1];
+            string point = "";
+
+            bool newPoint = true;
+            int i = 0;
+
+            while (newPoint)
+            {
+                if (pathString.Length != 0)
+                {
+                    try
+                    {
+                        char[] token = new char[1];
+                        pathString.CopyTo(0, token, 0, 1);
+                        pathString = pathString.Remove(0, 1);
+                        if (token[0].ToString() == ",")
+                        {
+                            fullPath[i].X = int.Parse(point);
+                            point = "";
+                        }
+                        else if (token[0].ToString() == "|")
+                        {
+                            fullPath[i].Y = int.Parse(point);
+                            point = "";
+                            i++;
+                            Array.Resize(ref fullPath, i+1);
+                        }
+                        else if (token[0].ToString() == ";")
+                        {
+                            fullPath[i].Y = int.Parse(point);
+                            newPoint = false;
+                        }
+                        else
+                        {
+                            point += token[0].ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Problem beim Parsen vom String:" + ex.Message);
+                    }
+                }
+            }
+
+            return fullPath;
         }
     }
 
