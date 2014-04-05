@@ -79,13 +79,15 @@ namespace WindowsFormsApplication1
             }
             catch (Exception)
             {
+                //gv_cities = 0;
+                //gv_workers = 0;
                 MessageBox.Show(gv_NoIntMessage);
             }
             finally
             {
                 if (gv_cities <= 0 | gv_workers <= 0)
                 {
-                    MessageBox.Show("Please only use positive numbers");
+                    MessageBox.Show(gv_NoIntMessage);
                 }
 
                 else if (gv_workers > gv_cities)
@@ -257,10 +259,21 @@ namespace WindowsFormsApplication1
                             fr = new System.IO.StreamReader(openFile.FileName);
                             pathString = fr.ReadToEnd();
                             fullPath = format.toPoints(pathString);
+                            gv_workers = 0;
+                            gv_cities = 0;
                             for (int i = 0; i < fullPath.Length; i++)
                             {
-
+                                if (fullPath[i].X == midX && fullPath[i].Y == midY)
+                                {
+                                    gv_workers++;
+                                }
+                                else
+                                {
+                                    gv_cities++;
+                                }
                             }
+                            gui_cities.Text = gv_cities.ToString();
+                            gui_workers.Text = gv_workers.ToString();
                             this.Refresh();
                         }
                     }
@@ -280,6 +293,26 @@ namespace WindowsFormsApplication1
             {
                 fr.Close();
             }
+        }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gv_cities = 0;
+            gv_workers = 0;
+            gui_cities.Text = "";
+            gui_workers.Text = "";
+            gui_avgLength.Text = "";
+            gui_totalLength.Text = "";
+            this.Refresh();
+        }
+
+        private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gui_cities.Text = "100";
+            gui_workers.Text = "10";
+            gv_workers = 10;
+            gv_cities = 100;
+            this.Refresh();
         }
 
 
