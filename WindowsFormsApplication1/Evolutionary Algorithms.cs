@@ -200,23 +200,43 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void speichernToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Text|*.txt";
             saveFile.Title = "Save current Path";
             saveFile.ShowDialog();
+
+            try
+            {
+                if (saveFile.FileName != "")
+                {
+                    System.IO.FileStream fs = null;
+                    System.IO.StreamWriter fw = null;
+
+                    path_format format = new path_format();
+
+
+                    using ( fs = (System.IO.FileStream)saveFile.OpenFile())
+                    using (fw = new System.IO.StreamWriter(fs))
+                    {
+                        fw.Write(format.toString(fullPath));
+                    }
+                    fw.Close();
+                    fs.Close();
+                }
+            }
+            catch (System.IO.IOException)
+            {
+
+            }
         }
 
-        private void öffnenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void dateiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
     }
 
@@ -404,6 +424,29 @@ namespace WindowsFormsApplication1
     public class evo_optimization
     {
 
+    }
+
+    public class path_format
+    {
+        public string toString(Point[] points)
+        {
+            String pathString = null;
+
+            try
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    pathString += points[i].X.ToString() + "," + points[i].Y.ToString() + "|";
+                }
+
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+
+            }
+
+            return pathString;
+        }
     }
 
 }
