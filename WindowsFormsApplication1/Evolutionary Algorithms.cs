@@ -493,8 +493,25 @@ namespace WindowsFormsApplication1
 
         public static Point[] completePath(Point[] points)
         {
+            //intersections between single paths have to be changed by swapping points between paths
 
-            return points;
+            try
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    for (int j = 0; j < points.Length; j++)
+                    {
+
+                    }
+
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+
+            }
+
+                return points;
         }
 
     }
