@@ -47,7 +47,14 @@
             this.eXTRAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -63,7 +70,7 @@
             // button_generate
             // 
             this.button_generate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button_generate.Location = new System.Drawing.Point(267, 53);
+            this.button_generate.Location = new System.Drawing.Point(240, 46);
             this.button_generate.Name = "button_generate";
             this.button_generate.Size = new System.Drawing.Size(70, 23);
             this.button_generate.TabIndex = 1;
@@ -75,7 +82,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 31);
+            this.label1.Location = new System.Drawing.Point(6, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 16);
             this.label1.TabIndex = 2;
@@ -83,9 +90,9 @@
             // 
             // gui_cities
             // 
-            this.gui_cities.Location = new System.Drawing.Point(161, 27);
+            this.gui_cities.Location = new System.Drawing.Point(153, 22);
             this.gui_cities.Name = "gui_cities";
-            this.gui_cities.Size = new System.Drawing.Size(100, 20);
+            this.gui_cities.Size = new System.Drawing.Size(68, 21);
             this.gui_cities.TabIndex = 3;
             this.gui_cities.Text = "10";
             // 
@@ -93,7 +100,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 59);
+            this.label2.Location = new System.Drawing.Point(6, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(141, 16);
             this.label2.TabIndex = 4;
@@ -101,17 +108,18 @@
             // 
             // gui_workers
             // 
-            this.gui_workers.Location = new System.Drawing.Point(161, 56);
+            this.gui_workers.Location = new System.Drawing.Point(153, 48);
             this.gui_workers.Name = "gui_workers";
-            this.gui_workers.Size = new System.Drawing.Size(100, 20);
+            this.gui_workers.Size = new System.Drawing.Size(68, 21);
             this.gui_workers.TabIndex = 5;
             this.gui_workers.Text = "2";
             // 
             // button_local
             // 
-            this.button_local.Location = new System.Drawing.Point(15, 130);
+            this.button_local.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.button_local.Location = new System.Drawing.Point(6, 21);
             this.button_local.Name = "button_local";
-            this.button_local.Size = new System.Drawing.Size(85, 24);
+            this.button_local.Size = new System.Drawing.Size(100, 25);
             this.button_local.TabIndex = 6;
             this.button_local.Text = "single paths";
             this.button_local.UseVisualStyleBackColor = true;
@@ -202,16 +210,74 @@
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.defaultToolStripMenuItem.Text = "Default";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.button_local);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.groupBox1.Location = new System.Drawing.Point(12, 113);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(320, 101);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Local Optimization";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(112, 55);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(204, 16);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "(between different paths/workers)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(112, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(145, 16);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "(partial string inversion)";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.button1.Location = new System.Drawing.Point(6, 52);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Swap";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.gui_cities);
+            this.groupBox2.Controls.Add(this.gui_workers);
+            this.groupBox2.Controls.Add(this.button_generate);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.groupBox2.Location = new System.Drawing.Point(12, 27);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(320, 80);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Initialization";
             // 
             // Form1
             // 
@@ -225,20 +291,20 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.gui_totalLength);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button_local);
-            this.Controls.Add(this.gui_workers);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.gui_cities);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button_generate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Evolutionary Optimization";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,6 +330,11 @@
         private System.Windows.Forms.ToolStripMenuItem eXTRAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defaultToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox2;
 
     }
 }

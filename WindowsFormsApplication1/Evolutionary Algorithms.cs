@@ -315,7 +315,10 @@ namespace WindowsFormsApplication1
             this.Refresh();
         }
 
-
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            fullPath = local_optimization.completePath(fullPath, gv_workers, false);
+        }
     }
 
 
@@ -520,8 +523,8 @@ namespace WindowsFormsApplication1
                                     {
                                         intersectFound = true;
                                         //swap point [i] and [j]
-                                        Point pointI = new Point;
-                                        Point pointJ = new Point;
+                                        Point pointI = new Point();
+                                        Point pointJ = new Point();
                                         pointI = points[i];
                                         pointJ = points[j];
                                         points[i] = pointJ;
