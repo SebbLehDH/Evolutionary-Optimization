@@ -491,19 +491,57 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public static Point[] completePath(Point[] points)
+        public static Point[] completePath(Point[] points, int workers, bool optSinglePaths)
         {
-            //intersections between single paths have to be changed by swapping points between paths
+            //intersections on different paths have to be changed by swapping points between paths
 
             try
             {
-                for (int i = 0; i < points.Length; i++)
+                bool intersectFound = true;
+                while (intersectFound)
                 {
-                    for (int j = 0; j < points.Length; j++)
+                    intersectFound = false;
+                    for (int i = 0; i < points.Length; i++)
                     {
+                        bool loopbreak = false;
+                        if (loopbreak){
+                            break;
+                        }
+                        for (int j = 0; j < points.Length; j++)
+                        {
+                            if (points[i] != points[j] &&
+                                    points[i] != points[j + 1] &&
+                                    points[i + 1] != points[j] &&
+                                    points[i + 1] != points[j + 1])
+                            {
+                                if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
+                                {
+                                    if (isDiffPath(points, i, j))   //check the points are not on the same path
+                                    {
+                                        intersectFound = true;
+                                        //swap point [i] and [j]
+                                        Point pointI = new Point;
+                                        Point pointJ = new Point;
+                                        pointI = points[i];
+                                        pointJ = points[j];
+                                        points[i] = pointJ;
+                                        points[j] = pointI;
+                                        loopbreak = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        //if (optSinglePaths){
+
+                                        //}
+                                        //single path optimization ??
+                                    }
+                                }
+                            }
+                        
+                        }
 
                     }
-
                 }
             }
             catch (IndexOutOfRangeException)
@@ -512,6 +550,45 @@ namespace WindowsFormsApplication1
             }
 
                 return points;
+        }
+
+        public static bool isDiffPath(Point[] points, int indexA, int indexB)
+        {
+            try
+            {
+                if (points[indexA] == points[0])
+                {
+                    return false;
+                }
+                if (points[indexB] == points[0])
+                {
+                    return false;
+                }
+
+                Point[] localPoints = new Point[Math.Abs(indexA - indexB)];
+                if (indexA > indexB)
+                {
+                    Array.Copy(points, indexB, localPoints, 0, localPoints.Length);
+                }
+                else if (indexA < indexB)
+                {
+                    Array.Copy(points, indexA, localPoints, 0, localPoints.Length);                    
+                }
+
+                for (int i = 0; i < localPoints.Length; i++)
+                {
+                    if (localPoints[i] == points[0])
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                //is there a correct array of points?
+                //return false;
+            }
+            return false;
         }
 
     }
