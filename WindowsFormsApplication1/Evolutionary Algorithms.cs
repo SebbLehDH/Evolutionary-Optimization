@@ -196,7 +196,10 @@ namespace WindowsFormsApplication1
                     {
                         MessageBox.Show("da passt wahrscheinlich was mit dem array nicht");
                     }
-              
+
+                Array.Resize(ref fullPath, fullPath.Length + 1);
+                fullPath[fullPath.Length - 1].X = midX;
+                fullPath[fullPath.Length - 1].Y = midY;
                 return fullPath;
             }
 
@@ -244,10 +247,10 @@ namespace WindowsFormsApplication1
             String pathString = null;
 
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = "C:\\";
+            //openFile.InitialDirectory = "C:\\";
             openFile.Filter = "Evo-Path|*.evo";
             openFile.Title = "Open Path";
-            openFile.RestoreDirectory = true;
+            openFile.RestoreDirectory = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -318,6 +321,7 @@ namespace WindowsFormsApplication1
         private void button1_Click_1(object sender, EventArgs e)
         {
             fullPath = local_optimization.completePath(fullPath, gv_workers, false);
+            this.Refresh();
         }
     }
 
@@ -327,9 +331,8 @@ namespace WindowsFormsApplication1
         public static Point[] singlePath(Point[] points)
         {
 
-            int splitX = points[0].X;       //X-coordinate of center
-            int splitY = points[0].Y;       //Y-coordinate of center
-            Boolean leftEnd = true;         //needed to split the complete Array into paths
+            Point split = points[0];
+            bool leftEnd = true;         //needed to split the complete Array into paths
 
             Point[] singlePath = new Point[0];      //will be resized and filled with a part of the complete array
 
@@ -339,7 +342,7 @@ namespace WindowsFormsApplication1
             for (int i = 0; i < points.Length; i++) //loop for splitting the complete Array
             {
 
-                if (points[i].X == splitX & points[i].Y == splitY)
+                if (points[i] == split)
                 {
                     if (leftEnd)
                     {
@@ -356,7 +359,12 @@ namespace WindowsFormsApplication1
                         Array.Copy(points, leftOffset, singlePath, 0, rightOffset+1);
                     }
                 }
-                //Boolean loopBreak = false;
+                //if (i == points.Length - 1)
+                //{
+                //    Array.Resize(ref singlePath, points.Length - leftOffset);
+                //    Array.Copy(points, singlePath, points.Length - leftOffset);
+                //}
+                ////Boolean loopBreak = false;
                 Boolean intersectFound = true;
                 if (singlePath.Length > 3)
                 {
