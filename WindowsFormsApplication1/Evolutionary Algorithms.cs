@@ -536,12 +536,11 @@ namespace WindowsFormsApplication1
                             {
                                 if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
                                 {
+                                    Point pointI = new Point();
+                                    Point pointJ = new Point();
                                     if (isDiffPath(points, i, j))   //check the points are not on the same path
                                     {
                                         intersectFound = true;
-                                        //swap point [i] and [j]
-                                        Point pointI = new Point();
-                                        Point pointJ = new Point();
                                         pointI = points[i];
                                         pointJ = points[j];
                                         points[i] = pointJ;
@@ -549,11 +548,37 @@ namespace WindowsFormsApplication1
                                         loopbreak = true;
                                         break;
                                     }
-                                    else
+                                    else if (isDiffPath(points, i + 1, j)){
+                                        intersectFound = true;
+                                        pointI = points[i + 1];
+                                        pointJ = points[j];
+                                        points[i + 1] = pointJ;
+                                        points[j] = pointI;
+                                        loopbreak = true;
+                                        break;
+                                    }
+                                    else if (isDiffPath(points, i, j + 1))
                                     {
-                                        //if (optSinglePaths){
-
-                                        //}
+                                        intersectFound = true;
+                                        pointI = points[i];
+                                        pointJ = points[j + 1];
+                                        points[i] = pointJ;
+                                        points[j + 1] = pointI;
+                                        loopbreak = true;
+                                        break;
+                                    }
+                                    else if (isDiffPath(points, i + 1, j + 1))
+                                    {
+                                        intersectFound = true;
+                                        pointI = points[i + 1];
+                                        pointJ = points[j + 1];
+                                        points[i + 1] = pointJ;
+                                        points[j + 1] = pointI;
+                                        loopbreak = true;
+                                        break;
+                                    }
+                                    else 
+                                    {
                                         //single path optimization ??
                                     }
                                 }
