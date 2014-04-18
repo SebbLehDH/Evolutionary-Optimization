@@ -275,6 +275,7 @@ namespace WindowsFormsApplication1
                                     gv_cities++;
                                 }
                             }
+                            gv_workers--;
                             gui_cities.Text = gv_cities.ToString();
                             gui_workers.Text = gv_workers.ToString();
                             this.Refresh();
@@ -339,47 +340,56 @@ namespace WindowsFormsApplication1
             int leftOffset = 0;             //the index to copy from cpmplete Array; initialized
             int rightOffset = 0;            //the length of the copy from complete Array; initialized
 
-            for (int i = 0; i < points.Length; i++) //loop for splitting the complete Array
+            bool loopBreak = false;
+            bool intersectFound = true;
+
+            while (intersectFound)      // while loop for continuing/restarting after array correction
             {
+                leftEnd = true;         //initialize splitting variables
+                leftOffset = 0;
+                rightOffset = 0;
 
-                if (points[i] == split)
+                intersectFound = false;
+                loopBreak = false;
+                for (int i = 0; i < points.Length; i++) //loop for splitting the complete Array
                 {
-                    if (leftEnd)
+                    if (loopBreak)
                     {
-                        leftOffset = i;
-                        leftEnd = false;
-                        
+                        intersectFound = true;
+                        singlePath = new Point[0];
+                        break;
                     }
-                    else
-                    {
-                        rightOffset = i;
-                        leftEnd = true;
 
-                        Array.Resize(ref singlePath, rightOffset+1);
-                        Array.Copy(points, leftOffset, singlePath, 0, rightOffset+1);
-                    }
-                }
-                //if (i == points.Length - 1)
-                //{
-                //    Array.Resize(ref singlePath, points.Length - leftOffset);
-                //    Array.Copy(points, singlePath, points.Length - leftOffset);
-                //}
-                ////Boolean loopBreak = false;
-                Boolean intersectFound = true;
-                if (singlePath.Length > 3)
-                {
-                    while (intersectFound)
+                    if (points[i] == split)
                     {
-                        intersectFound = false;
-                        Boolean loopBreak = false;
-                        for (int j = 0; j < singlePath.Length; j++)     //loop for String-inversion inside a path
+                        if (leftEnd)
+                        {
+                            leftOffset = i;
+                            leftEnd = false;
+
+                        }
+                        else
+                        {
+                            rightOffset = i;
+                            //leftEnd = true;
+
+                            singlePath = null;
+                            Array.Resize(ref singlePath, rightOffset - leftOffset + 1);
+                            Array.Copy(points, leftOffset, singlePath, 0, rightOffset - leftOffset + 1);
+
+                            //leftOffset = i;
+                        }
+                    }
+                    if (singlePath.Length > 3)
+                    {
+                        for (int j = 0; j < singlePath.Length; j++)     //outer loop for String-inversion inside a path
                         {
                             if (loopBreak)
                             {
-                                Array.Copy(singlePath, 0, points, leftOffset, rightOffset - leftOffset);
+                                Array.Copy(singlePath, 0, points, leftOffset, singlePath.Length);
                                 break;
                             }
-                            for (int k = 0; k < singlePath.Length; k++)
+                            for (int k = 0; k < singlePath.Length; k++) //inner string-inversion loop
                             {
                                 try
                                 {
@@ -388,8 +398,7 @@ namespace WindowsFormsApplication1
                                         & singlePath[j] != singlePath[k + 1]
                                         & singlePath[j + 1] != singlePath[k + 1])
                                     {
-                                        bool intersect = isIntersect(singlePath[j], singlePath[j + 1], singlePath[k], singlePath[k + 1]);
-                                        if (intersect)
+                                        if (isIntersect(singlePath[j], singlePath[j + 1], singlePath[k], singlePath[k + 1]))
                                         {
                                             if (k > j)
                                             {
@@ -400,31 +409,31 @@ namespace WindowsFormsApplication1
                                             }
                                             else if (j > k)
                                             {
-                                                Point[] tmp = new Point[Math.Abs(j - (k+1))];
+                                                Point[] tmp = new Point[Math.Abs(j - (k + 1))];
                                                 Array.Copy(singlePath, k + 1, tmp, 0, Math.Abs(j - k));
                                                 Array.Reverse(tmp);
                                                 Array.Copy(tmp, 0, singlePath, k + 1, Math.Abs(j - k));
                                             }
                                             loopBreak = true;
-                                            intersectFound = true;
                                             break;
 
                                         }
                                         else
                                         {
-                                            intersectFound = false;
+                                            //intersectFound = false;
                                         } //close IF
                                     } //close IF
                                 }
                                 catch (IndexOutOfRangeException)
                                 {
-                                    intersectFound = false;
+                                    //intersectFound = false;
                                 }
                             } //close inner for-loop (k)
                         } //close outer for-loop (j)
-                    } //close while-loop
-                } //close IF                
-            } //close splitting for-loop (i)
+                        leftOffset = rightOffset;
+                    } //close IF                
+                } //close splitting for-loop (i)
+            } // while loop
                 return points;
         } //close method singlePath
 
@@ -509,12 +518,12 @@ namespace WindowsFormsApplication1
             try
             {
                 bool intersectFound = true;
+                bool loopbreak = false;
                 while (intersectFound)
                 {
                     intersectFound = false;
                     for (int i = 0; i < points.Length; i++)
                     {
-                        bool loopbreak = false;
                         if (loopbreak){
                             break;
                         }
