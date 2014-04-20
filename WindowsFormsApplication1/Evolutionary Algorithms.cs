@@ -522,6 +522,7 @@ namespace WindowsFormsApplication1
                 while (intersectFound)
                 {
                     intersectFound = false;
+                    loopbreak = false; // problem: endless loop (toggling points: switching the path on and on)
                     for (int i = 0; i < points.Length; i++)
                     {
                         if (loopbreak){
@@ -529,7 +530,7 @@ namespace WindowsFormsApplication1
                         }
                         for (int j = 0; j < points.Length; j++)
                         {
-                            if (points[i] != points[j] &&
+                            if (points[i] != points[j] &&           // no intersections possible with 2 or 3 points only
                                     points[i] != points[j + 1] &&
                                     points[i + 1] != points[j] &&
                                     points[i + 1] != points[j + 1])
@@ -548,7 +549,8 @@ namespace WindowsFormsApplication1
                                         loopbreak = true;
                                         break;
                                     }
-                                    else if (isDiffPath(points, i + 1, j)){
+                                    else if (isDiffPath(points, i + 1, j))
+                                    {
                                         intersectFound = true;
                                         pointI = points[i + 1];
                                         pointJ = points[j];
@@ -581,13 +583,11 @@ namespace WindowsFormsApplication1
                                     {
                                         //single path optimization ??
                                     }
-                                }
-                            }
-                        
-                        }
-
-                    }
-                }
+                                } //if (isIntersect)
+                            } //if (4 diff points)                        
+                        } //inner for-loop (j)
+                    } //outer for-loop (i)
+                } //while-loop
             }
             catch (IndexOutOfRangeException)
             {
@@ -595,7 +595,7 @@ namespace WindowsFormsApplication1
             }
 
                 return points;
-        }
+        } //static completePath
 
         public static bool isDiffPath(Point[] points, int indexA, int indexB)
         {

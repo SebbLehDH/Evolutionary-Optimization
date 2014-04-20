@@ -204,20 +204,20 @@
             this.clearAllToolStripMenuItem,
             this.defaultToolStripMenuItem});
             this.eXTRAToolStripMenuItem.Name = "eXTRAToolStripMenuItem";
-            this.eXTRAToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.eXTRAToolStripMenuItem.Text = "EXTRA";
+            this.eXTRAToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.eXTRAToolStripMenuItem.Text = "FUNCTIONS";
             // 
             // clearAllToolStripMenuItem
             // 
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
-            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearAllToolStripMenuItem.Text = "Clear All";
             this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.defaultToolStripMenuItem.Text = "Default";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
