@@ -461,12 +461,12 @@ namespace WindowsFormsApplication1
                 try
                 {
                     //line A->B:
-                    mAB = Convert.ToSingle(B.Y - A.Y) / Convert.ToSingle(B.X - A.X);      //divide by zero! -> vertical line
-                    cAB = (A.Y - mAB * A.X);
+                    mAB = Convert.ToSingle(B.Y - A.Y) / Convert.ToSingle(B.X - A.X);        //divide by zero! -> vertical line
+                    cAB = (A.Y - mAB * A.X);                                                //SOLUTION: rotate by 90° 
 
                     //line C->D
-                    mCD = Convert.ToSingle(D.Y - C.Y) / Convert.ToSingle(D.X - C.X);      //divide by zero! -> vertical line
-                    cCD = (C.Y - mCD * C.X);
+                    mCD = Convert.ToSingle(D.Y - C.Y) / Convert.ToSingle(D.X - C.X);        //divide by zero! -> vertical line
+                    cCD = (C.Y - mCD * C.X);                                                //see above
                 }
                 catch (DivideByZeroException)
                 {
@@ -513,88 +513,87 @@ namespace WindowsFormsApplication1
 
         public static Point[] completePath(Point[] points, int workers, bool optSinglePaths)
         {
-            //intersections on different paths have to be changed by swapping points between paths
-
-            try
-            {
-                bool intersectFound = true;
-                bool loopbreak = false;
-                while (intersectFound)
-                {
-                    intersectFound = false;
-                    loopbreak = false; // problem: endless loop (toggling points: switching the path on and on)
-                    for (int i = 0; i < points.Length; i++)
+             // problem: endless loop (toggling points: switching the path on and on)
+                    try
                     {
-                        if (loopbreak){
-                            break;
-                        }
-                        for (int j = 0; j < points.Length; j++)
+                        for (int i = 0; i < points.Length; i++)
                         {
-                            if (points[i] != points[j] &&           // no intersections possible with 2 or 3 points only
-                                    points[i] != points[j + 1] &&
-                                    points[i + 1] != points[j] &&
-                                    points[i + 1] != points[j + 1])
+                            try
                             {
-                                if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
+
+                                for (int j = 0; j < points.Length; j++)
                                 {
-                                    Point pointI = new Point();
-                                    Point pointJ = new Point();
-                                    if (isDiffPath(points, i, j))   //check the points are not on the same path
+                                    if (points[i] != points[j] &&           // no intersections possible with 2 or 3 points only
+                                            points[i] != points[j + 1] &&
+                                            points[i + 1] != points[j] &&
+                                            points[i + 1] != points[j + 1])
                                     {
-                                        intersectFound = true;
-                                        pointI = points[i];
-                                        pointJ = points[j];
-                                        points[i] = pointJ;
-                                        points[j] = pointI;
-                                        loopbreak = true;
-                                        break;
-                                    }
-                                    else if (isDiffPath(points, i + 1, j))
-                                    {
-                                        intersectFound = true;
-                                        pointI = points[i + 1];
-                                        pointJ = points[j];
-                                        points[i + 1] = pointJ;
-                                        points[j] = pointI;
-                                        loopbreak = true;
-                                        break;
-                                    }
-                                    else if (isDiffPath(points, i, j + 1))
-                                    {
-                                        intersectFound = true;
-                                        pointI = points[i];
-                                        pointJ = points[j + 1];
-                                        points[i] = pointJ;
-                                        points[j + 1] = pointI;
-                                        loopbreak = true;
-                                        break;
-                                    }
-                                    else if (isDiffPath(points, i + 1, j + 1))
-                                    {
-                                        intersectFound = true;
-                                        pointI = points[i + 1];
-                                        pointJ = points[j + 1];
-                                        points[i + 1] = pointJ;
-                                        points[j + 1] = pointI;
-                                        loopbreak = true;
-                                        break;
-                                    }
-                                    else 
-                                    {
-                                        //single path optimization ??
-                                    }
-                                } //if (isIntersect)
-                            } //if (4 diff points)                        
-                        } //inner for-loop (j)
-                    } //outer for-loop (i)
-                } //while-loop
-            }
-            catch (IndexOutOfRangeException)
-            {
+                                        if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
+                                        {
+                                            Point pointI = new Point();
+                                            Point pointJ = new Point();
+                                            if (isDiffPath(points, i, j))   //check the points are not on the same path
+                                            {
+                                                pointI = points[i];
+                                                pointJ = points[j];
+                                                points[i] = pointJ;
+                                                points[j] = pointI;
+                                                i++;
+                                            }
+                                            else if (isDiffPath(points, i + 1, j))
+                                            {
+                                                pointI = points[i + 1];
+                                                pointJ = points[j];
+                                                points[i + 1] = pointJ;
+                                                points[j] = pointI;
+                                                i++;                //step a point ahead, to pretend toggling
+                                                i++;
+                                            }
+                                            else if (isDiffPath(points, i, j + 1))
+                                            {
+                                                pointI = points[i];
+                                                pointJ = points[j + 1];
+                                                points[i] = pointJ;
+                                                points[j + 1] = pointI;
+                                                i++;
+                                                j++;
+                                            }
+                                            else if (isDiffPath(points, i + 1, j + 1))
+                                            {
+                                                pointI = points[i + 1];
+                                                pointJ = points[j + 1];
+                                                points[i + 1] = pointJ;
+                                                points[j + 1] = pointI;
+                                                i++;
+                                                i++;
+                                                j++;
+                                            }
+                                            else
+                                            {
+                                                //single path optimization ??
+                                            }
+                                        } //if (isIntersect)
+                                    } //if (4 diff points)                        
+                                } //inner for-loop (j)
+                            }
+                            catch (IndexOutOfRangeException)
+                            {
+                                
+                            }
+                        } //outer for-loop (i)
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
 
-            }
+                    }
+                //} //while-loop
+            //}
+            //catch (IndexOutOfRangeException)
+            //{
 
-                return points;
+            //}
+            return points;
+
         } //static completePath
 
         public static bool isDiffPath(Point[] points, int indexA, int indexB)
