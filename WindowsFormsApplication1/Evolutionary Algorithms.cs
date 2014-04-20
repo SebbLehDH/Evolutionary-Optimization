@@ -92,7 +92,7 @@ namespace WindowsFormsApplication1
 
                 else if (gv_workers > gv_cities)
                 {
-                    MessageBox.Show("Numbers of cities should be higher than the number of emloyees");
+                    MessageBox.Show("Numbers of Points should be higher or equal to the number of paths");
                 }
                 else
                 {
@@ -514,84 +514,155 @@ namespace WindowsFormsApplication1
         public static Point[] completePath(Point[] points, int workers, bool optSinglePaths)
         {
              // problem: endless loop (toggling points: switching the path on and on)
+                //update: toggling within wigle array solved. What with 'reverse' indexes (first swap: i=1 / j=2; second[toggle back]: i=2 / j=1 !!!)
+                //maybe save swap-indexes with int-array and prevent a second swap?!?!
+
+            int[,] swapped = new int[0,2];
+            try
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
                     try
                     {
-                        for (int i = 0; i < points.Length; i++)
-                        {
-                            try
-                            {
 
-                                for (int j = 0; j < points.Length; j++)
-                                {
-                                    if (points[i] != points[j] &&           // no intersections possible with 2 or 3 points only
-                                            points[i] != points[j + 1] &&
-                                            points[i + 1] != points[j] &&
-                                            points[i + 1] != points[j + 1])
-                                    {
-                                        if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
-                                        {
-                                            Point pointI = new Point();
-                                            Point pointJ = new Point();
-                                            if (isDiffPath(points, i, j))   //check the points are not on the same path
-                                            {
-                                                pointI = points[i];
-                                                pointJ = points[j];
-                                                points[i] = pointJ;
-                                                points[j] = pointI;
-                                                i++;
-                                            }
-                                            else if (isDiffPath(points, i + 1, j))
-                                            {
-                                                pointI = points[i + 1];
-                                                pointJ = points[j];
-                                                points[i + 1] = pointJ;
-                                                points[j] = pointI;
-                                                i++;                //step a point ahead, to pretend toggling
-                                                i++;
-                                            }
-                                            else if (isDiffPath(points, i, j + 1))
-                                            {
-                                                pointI = points[i];
-                                                pointJ = points[j + 1];
-                                                points[i] = pointJ;
-                                                points[j + 1] = pointI;
-                                                i++;
-                                                j++;
-                                            }
-                                            else if (isDiffPath(points, i + 1, j + 1))
-                                            {
-                                                pointI = points[i + 1];
-                                                pointJ = points[j + 1];
-                                                points[i + 1] = pointJ;
-                                                points[j + 1] = pointI;
-                                                i++;
-                                                i++;
-                                                j++;
-                                            }
-                                            else
-                                            {
-                                                //single path optimization ??
-                                            }
-                                        } //if (isIntersect)
-                                    } //if (4 diff points)                        
-                                } //inner for-loop (j)
-                            }
-                            catch (IndexOutOfRangeException)
+                        for (int j = 0; j < points.Length; j++)
+                        {
+                            if (points[i] != points[j] &&           // no intersections possible with 2 or 3 points only
+                                    points[i] != points[j + 1] &&
+                                    points[i + 1] != points[j] &&
+                                    points[i + 1] != points[j + 1])
                             {
-                                
-                            }
-                        } //outer for-loop (i)
+                                if (isIntersect(points[i], points[i + 1], points[j], points[j + 1]))
+                                {
+                                    bool isSwapped = false;
+                                    Point pointI = new Point();
+                                    Point pointJ = new Point();
+                                    if (isDiffPath(points, i, j))   //check the points are not on the same path
+                                    {
+                                        for (int k = 0; k < swapped.Length/2; k++) //check if these points (i, j) have been swapped before
+                                        {
+                                            if ((swapped[k,0] == i && swapped[k,1] == j) ||
+                                                (swapped[k,0] == j && swapped[k,1] == i))
+                                            {
+                                                isSwapped = true;
+                                            }
+                                        }
+                                        if (!isSwapped)
+                                        {
+                                            pointI = points[i];
+                                            pointJ = points[j];
+                                            points[i] = pointJ;
+                                            points[j] = pointI;
+                                            int[,] tmp = new int[swapped.Length/2 + 1 , 2];
+                                            Array.Copy(swapped, tmp, swapped.Length);
+                                            swapped = tmp;
+                                            //Array.Resize(ref swapped[], swapped.Length+1);
+                                            swapped[swapped.Length/2-1, 0] = i;     //save swap index to prevent 'reswapping' the same points
+                                            swapped[swapped.Length/2-1, 1] = j;
+
+                                            isSwapped = false;
+                                        }
+                                    }
+                                    else if (isDiffPath(points, i + 1, j))
+                                    {
+                                        for (int k = 0; k < swapped.Length/2; k++) //check if these points (i, j) have been swapped before
+                                        {
+                                            if ((swapped[k,0] == i+1 && swapped[k,1] == j) ||
+                                                (swapped[k,0] == j && swapped[k,1] == i+1))
+                                            {
+                                                isSwapped = true;
+                                            }
+                                        }
+                                        if (!isSwapped)
+                                        {
+                                            pointI = points[i + 1];
+                                            pointJ = points[j];
+                                            points[i + 1] = pointJ;
+                                            points[j] = pointI;
+                                            int[,] tmp = new int[swapped.Length / 2 + 1, 2];
+                                            Array.Copy(swapped, tmp, swapped.Length);
+                                            swapped = tmp;
+                                            //Array.Resize(ref swapped, swapped.Length + 1);
+                                            swapped[swapped.Length/2-1,0] = i + 1;
+                                            swapped[swapped.Length/2-1,1] = j;
+                                            //i++;                //step a point ahead, to pretend toggling
+                                            //i++;
+                                            isSwapped = false;
+                                        }
+                                    }
+                                    else if (isDiffPath(points, i, j + 1))
+                                    {
+                                        for (int k = 0; k < swapped.Length/2; k++) //check if these points (i, j) have been swapped before
+                                        {
+                                            if ((swapped[k,0] == i && swapped[k,1] == j+1) ||
+                                                (swapped[k,0] == j+1 && swapped[k,1] == i))
+                                            {
+                                                isSwapped = true;
+                                            }
+                                        }
+                                        if (!isSwapped)
+                                        {
+                                            pointI = points[i];
+                                            pointJ = points[j + 1];
+                                            points[i] = pointJ;
+                                            points[j + 1] = pointI;
+                                            int[,] tmp = new int[swapped.Length / 2 + 1, 2];
+                                            Array.Copy(swapped, tmp, swapped.Length);
+                                            swapped = tmp;
+                                            //Array.Resize(ref swapped, swapped.Length + 1);
+                                            swapped[swapped.Length/2-1,0] = i;
+                                            swapped[swapped.Length/2-1,1] = j + 1;
+                                            //i++;
+                                            //j++;
+                                            isSwapped = false;
+                                        }
+                                    }
+                                    else if (isDiffPath(points, i + 1, j + 1))
+                                    {
+                                        for (int k = 0; k < swapped.Length/2; k++) //check if these points (i, j) have been swapped before
+                                        {
+                                            if ((swapped[k,0] == i+1 && swapped[k,1] == j+1) ||
+                                                (swapped[k,0] == j+1 && swapped[k,1] == i+1))
+                                            {
+                                                isSwapped = true;
+                                            }
+                                        }
+                                        if (!isSwapped)
+                                        {
+                                            pointI = points[i + 1];
+                                            pointJ = points[j + 1];
+                                            points[i + 1] = pointJ;
+                                            points[j + 1] = pointI;
+                                            int[,] tmp = new int[swapped.Length / 2 + 1, 2];
+                                            Array.Copy(swapped, tmp, swapped.Length);
+                                            swapped = tmp;
+                                            //Array.Resize(ref swapped, swapped.Length + 1);
+                                            swapped[swapped.Length/2-1,0] = i + 1;
+                                            swapped[swapped.Length/2-1,1] = j + 1;
+                                            //i++;
+                                            //i++;
+                                            //j++;
+                                            isSwapped = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //single path optimization ??
+                                    }
+                                } //if (isIntersect)
+                            } //if (4 diff points)                        
+                        } //inner for-loop (j)
                     }
                     catch (IndexOutOfRangeException)
                     {
-
+                                
                     }
-                //} //while-loop
-            //}
-            //catch (IndexOutOfRangeException)
-            //{
+                } //outer for-loop (i)
+            }
+            catch (IndexOutOfRangeException)
+            {
 
-            //}
+            }
             return points;
 
         } //static completePath
