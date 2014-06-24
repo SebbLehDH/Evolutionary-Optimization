@@ -432,6 +432,10 @@ namespace WindowsFormsApplication1
                 else
                 {
                     //start optimization
+                    evo_optimization evo_opt = new evo_optimization();
+                    
+                    evo_opt.optimize(popSize, popGrowth, 1, fullPath);
+
                 }
             }
         }
@@ -834,7 +838,221 @@ namespace WindowsFormsApplication1
 
     public class evo_optimization
     {
+        private int popSize;
+        private int popGrowth;
+        private int strategy;
+        private Point[] brace = new Point[1];
+        private Point[] first_individual;
 
+        private Point[] population = new Point[0];
+        private Point[] offsprings = new Point[0];
+
+        private Double[] pop_evaluation = new Double[0];
+
+        private Random rnd = new Random();
+
+        public void optimize(int popSize, int popGrowth, int strategy, Point[] points)
+        {
+            this.popSize = popSize;
+            this.popGrowth = popGrowth;
+            this.strategy = strategy;
+
+            first_individual = points;
+
+            create_population(points);          // create initial population of {greek-My} (popSize) individuals
+
+            evaluate(population);
+
+            create_offsprings();
+
+        }
+
+        public void create_population(Point[] points)
+        {
+        brace[0] = new Point(-1, -1);
+            int oldLength = population.Length;
+            Array.Resize(ref population, population.Length + points.Length);
+            Array.Copy(points, 0, population, oldLength, points.Length);
+
+            for (int i = 0; i < (popSize - 1); i++)
+            {
+                Point[] new_points = new Point[points.Length];
+                oldLength = population.Length;
+                Array.Resize(ref population, population.Length + 1);
+                Array.Copy(brace, 0, population, oldLength, 1);
+                new_points = reconnect_points(points);
+                oldLength = population.Length;
+                Array.Resize(ref population, population.Length + new_points.Length);
+                Array.Copy(new_points, 0, population, oldLength, new_points.Length);
+            }
+        }
+
+        private void create_offsprings()
+        {
+            Point[] offspring = new Point[0];
+
+            Point[] pointsA = new Point[0];
+            Point[] pointsB = new Point[0];
+            for (int i = 0; i < popGrowth; i++)
+            {
+                int parentA = rnd.Next(popSize);
+                int parentB = 0;
+                Boolean random_bool = true;
+                while (random_bool)
+                {
+                    parentB = rnd.Next(popSize);
+                    if (parentA != parentB)
+                    {
+                        random_bool = false;
+                    }
+                }
+                int k = 0;
+                for (int j = 0; j < population.Length; j++)
+                {
+                    int startA;
+                    int endA;
+                    int startB;
+                    int endB;
+                    if (parentA == 0) { startA = 0; }
+                    if (parentB == 0) { startB = 0; }
+                    if (parentA == popSize) { endA = population.Length - 1; }
+                    if (parentB == popSize) { endB = population.Length - 1; }
+                    if (population[j].X == -1) { k++; }
+
+                }                
+            }
+            //offspring = order_crossover(pointsA, pointsB);
+
+            offspring = swap(offspring);
+        }
+
+        private Point[] order_crossover(Point[] pointsA, Point[] pointsB)
+        {
+            Point[] offspring = new Point[0];
+
+            return offspring;
+        }
+
+        private Point[] swap(Point[] points)
+        {
+            Point tmpA = new Point();
+            Point tmpB = new Point();
+            int pointA = 0;
+            int pointB = 0;
+
+            Boolean swap = true;
+            while (swap)
+            {
+                pointA = rnd.Next(points.Length);
+                if (points[pointA] != points[0])
+                {
+                    swap = false;
+                }
+                Boolean diverse = true;
+                while (diverse)
+                {
+                    pointB = rnd.Next(points.Length);
+                    if ((pointA != pointB) && (points[pointB] != points[0]))
+                    {
+                        diverse = false;
+                    }
+                }
+            }
+            tmpA = points[pointA];
+            tmpB = points[pointB];
+            points[pointA] = tmpB;
+            points[pointB] = tmpA;
+
+            return points;
+        }
+
+        private void evaluate(Point[] population)
+        {
+            Point[] eval_points = new Point[0];
+            int j = 0;
+            // split collection at [-1, -1]
+            for (int i = 0; i < population.Length; i++)
+            {
+                if (population[i].X == -1)
+                {
+                    Array.Resize(ref pop_evaluation, pop_evaluation.Length + 1);
+                    pop_evaluation[j] = eval_individual(eval_points);
+                    Array.Resize(ref eval_points, 0);
+                    j++;
+                }
+                else if (i==population.Length - 1)
+                {
+                    Array.Resize(ref eval_points, eval_points.Length + 1);
+                    eval_points[eval_points.Length - 1] = eval_points[0];
+                    Array.Resize(ref pop_evaluation, pop_evaluation.Length + 1);
+                    pop_evaluation[j] = eval_individual(eval_points);
+                    Array.Resize(ref eval_points, 0);
+                    j++;
+
+                }
+                else
+                {
+                    Array.Resize(ref eval_points, eval_points.Length + 1);
+                    Array.Copy(population, i, eval_points, eval_points.Length-1, 1);
+                }
+            }
+        }
+
+        private Double eval_individual(Point[] points)
+        {
+            Double length = 0;
+            for (int i = 0; i < points.Length - 1; i++)
+            {
+                length += Math.Sqrt(Math.Pow(points[i].X - points[i + 1].X, 2) + Math.Pow(points[i].Y - points[i + 1].Y, 2));
+            }
+            return length;
+        }
+
+        public Point[] reconnect_points(Point[] points)
+        {
+            Point mid = new Point(points[0].X, points[0].Y);
+            Point[] scramble_points = new Point[0];
+            int[] ret_points = new int[0];
+            
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i] == mid)
+                {
+                    //save indexes for later insertion
+                    Array.Resize(ref ret_points, (ret_points.Length+1));
+                    ret_points[ret_points.Length-1] = i;
+                }
+                else
+                {
+                    Array.Resize(ref scramble_points, (scramble_points.Length + 1));
+                    scramble_points[scramble_points.Length-1] = points[i];
+                }
+            }
+
+            // shuffle points
+            for (int i = 0; i < scramble_points.Length; i++)
+            {
+                int rnd_index1 = rnd.Next(scramble_points.Length);
+                int rnd_index2 = rnd.Next(scramble_points.Length);
+                Point tmp2 = new Point(scramble_points[rnd_index1].X, scramble_points[rnd_index1].Y);
+                Point tmp1 = new Point(scramble_points[rnd_index2].X, scramble_points[rnd_index2].Y);
+                scramble_points[rnd_index2] = tmp2;
+                scramble_points[rnd_index1] = tmp1;
+            }
+            
+            //insert mid points
+            for (int i = 0; i < ret_points.Length; i++)
+            {
+                Point[] tmp = new Point[scramble_points.Length - ret_points[i]]; // second part
+                Array.Copy(scramble_points, ret_points[i], tmp, 0, scramble_points.Length - ret_points[i]);
+                //Array.Copy(scramble_points, tmp, scramble_points.Length);
+                Array.Resize(ref scramble_points, scramble_points.Length + 1);
+                scramble_points[ret_points[i]] = mid;
+                Array.Copy(tmp, 0, scramble_points, ret_points[i] + 1, tmp.Length);
+
+            }
+                return scramble_points;
+        }
     }
 
     public class path_format

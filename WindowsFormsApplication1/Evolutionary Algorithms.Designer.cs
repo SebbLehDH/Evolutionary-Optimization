@@ -56,6 +56,15 @@
             this.gui_evo_strategy = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.gui_aco_iterations = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.gui_aco_heuristic = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.gui_aco_phero = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.aco_go = new System.Windows.Forms.Button();
+            this.gui_aco_ants = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.öffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +81,7 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
@@ -89,9 +99,9 @@
             // button_generate
             // 
             this.button_generate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button_generate.Location = new System.Drawing.Point(240, 46);
+            this.button_generate.Location = new System.Drawing.Point(247, 46);
             this.button_generate.Name = "button_generate";
-            this.button_generate.Size = new System.Drawing.Size(70, 23);
+            this.button_generate.Size = new System.Drawing.Size(63, 23);
             this.button_generate.TabIndex = 1;
             this.button_generate.Text = "generate";
             this.button_generate.UseVisualStyleBackColor = true;
@@ -109,7 +119,7 @@
             // 
             // gui_cities
             // 
-            this.gui_cities.Location = new System.Drawing.Point(153, 22);
+            this.gui_cities.Location = new System.Drawing.Point(173, 21);
             this.gui_cities.Name = "gui_cities";
             this.gui_cities.Size = new System.Drawing.Size(68, 21);
             this.gui_cities.TabIndex = 3;
@@ -127,7 +137,7 @@
             // 
             // gui_workers
             // 
-            this.gui_workers.Location = new System.Drawing.Point(153, 48);
+            this.gui_workers.Location = new System.Drawing.Point(173, 47);
             this.gui_workers.Name = "gui_workers";
             this.gui_workers.Size = new System.Drawing.Size(68, 21);
             this.gui_workers.TabIndex = 5;
@@ -202,11 +212,11 @@
             this.localGo.AccessibleName = "startlocalOpt";
             this.localGo.Enabled = false;
             this.localGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.localGo.Location = new System.Drawing.Point(275, 31);
+            this.localGo.Location = new System.Drawing.Point(270, 31);
             this.localGo.Name = "localGo";
-            this.localGo.Size = new System.Drawing.Size(35, 23);
+            this.localGo.Size = new System.Drawing.Size(40, 23);
             this.localGo.TabIndex = 10;
-            this.localGo.Text = "go";
+            this.localGo.Text = "start+";
             this.localGo.UseVisualStyleBackColor = true;
             this.localGo.Click += new System.EventHandler(this.button2_Click_1);
             // 
@@ -238,14 +248,14 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.groupBox3.Location = new System.Drawing.Point(12, 185);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(320, 156);
+            this.groupBox3.Size = new System.Drawing.Size(320, 134);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Evolution Strategies";
             // 
             // gui_evo_growth
             // 
-            this.gui_evo_growth.Location = new System.Drawing.Point(153, 73);
+            this.gui_evo_growth.Location = new System.Drawing.Point(173, 73);
             this.gui_evo_growth.Name = "gui_evo_growth";
             this.gui_evo_growth.Size = new System.Drawing.Size(68, 21);
             this.gui_evo_growth.TabIndex = 14;
@@ -267,11 +277,11 @@
             this.evoGo.AccessibleName = "startlocalOpt";
             this.evoGo.Enabled = false;
             this.evoGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.evoGo.Location = new System.Drawing.Point(275, 100);
+            this.evoGo.Location = new System.Drawing.Point(270, 100);
             this.evoGo.Name = "evoGo";
-            this.evoGo.Size = new System.Drawing.Size(35, 23);
+            this.evoGo.Size = new System.Drawing.Size(40, 23);
             this.evoGo.TabIndex = 12;
-            this.evoGo.Text = "go";
+            this.evoGo.Text = "start";
             this.evoGo.UseVisualStyleBackColor = true;
             this.evoGo.Click += new System.EventHandler(this.evoGo_Click);
             // 
@@ -299,7 +309,7 @@
             // 
             // gui_evo_popu
             // 
-            this.gui_evo_popu.Location = new System.Drawing.Point(153, 47);
+            this.gui_evo_popu.Location = new System.Drawing.Point(173, 46);
             this.gui_evo_popu.Name = "gui_evo_popu";
             this.gui_evo_popu.Size = new System.Drawing.Size(68, 21);
             this.gui_evo_popu.TabIndex = 6;
@@ -329,13 +339,103 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.gui_aco_iterations);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.gui_aco_heuristic);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.gui_aco_phero);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.aco_go);
+            this.groupBox4.Controls.Add(this.gui_aco_ants);
+            this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.groupBox4.Location = new System.Drawing.Point(12, 370);
+            this.groupBox4.Location = new System.Drawing.Point(12, 325);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(320, 86);
+            this.groupBox4.Size = new System.Drawing.Size(320, 146);
             this.groupBox4.TabIndex = 15;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Ant Colony Optimization";
+            // 
+            // gui_aco_iterations
+            // 
+            this.gui_aco_iterations.Location = new System.Drawing.Point(173, 23);
+            this.gui_aco_iterations.Name = "gui_aco_iterations";
+            this.gui_aco_iterations.Size = new System.Drawing.Size(68, 21);
+            this.gui_aco_iterations.TabIndex = 21;
+            this.gui_aco_iterations.Text = "100";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 28);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(124, 16);
+            this.label12.TabIndex = 20;
+            this.label12.Text = "number of iterations";
+            // 
+            // gui_aco_heuristic
+            // 
+            this.gui_aco_heuristic.Location = new System.Drawing.Point(173, 104);
+            this.gui_aco_heuristic.Name = "gui_aco_heuristic";
+            this.gui_aco_heuristic.Size = new System.Drawing.Size(68, 21);
+            this.gui_aco_heuristic.TabIndex = 19;
+            this.gui_aco_heuristic.Text = "1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 109);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(134, 16);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "influence of heuristics";
+            // 
+            // gui_aco_phero
+            // 
+            this.gui_aco_phero.Location = new System.Drawing.Point(173, 77);
+            this.gui_aco_phero.Name = "gui_aco_phero";
+            this.gui_aco_phero.Size = new System.Drawing.Size(68, 21);
+            this.gui_aco_phero.TabIndex = 17;
+            this.gui_aco_phero.Text = "1";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 82);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(154, 16);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "influence of pheromones";
+            // 
+            // aco_go
+            // 
+            this.aco_go.AccessibleDescription = "Start local Optimization";
+            this.aco_go.AccessibleName = "startlocalOpt";
+            this.aco_go.Enabled = false;
+            this.aco_go.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.aco_go.Location = new System.Drawing.Point(270, 102);
+            this.aco_go.Name = "aco_go";
+            this.aco_go.Size = new System.Drawing.Size(40, 23);
+            this.aco_go.TabIndex = 15;
+            this.aco_go.Text = "start";
+            this.aco_go.UseVisualStyleBackColor = true;
+            // 
+            // gui_aco_ants
+            // 
+            this.gui_aco_ants.Location = new System.Drawing.Point(173, 50);
+            this.gui_aco_ants.Name = "gui_aco_ants";
+            this.gui_aco_ants.Size = new System.Drawing.Size(68, 21);
+            this.gui_aco_ants.TabIndex = 15;
+            this.gui_aco_ants.Text = "100";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 55);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(95, 16);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "number of ants";
             // 
             // dateiToolStripMenuItem
             // 
@@ -484,6 +584,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
@@ -531,6 +633,15 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.Button aco_go;
+        private System.Windows.Forms.TextBox gui_aco_ants;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox gui_aco_heuristic;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox gui_aco_phero;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox gui_aco_iterations;
+        private System.Windows.Forms.Label label12;
 
     }
 }
