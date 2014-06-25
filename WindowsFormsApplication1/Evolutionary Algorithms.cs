@@ -900,37 +900,112 @@ namespace WindowsFormsApplication1
                 Boolean random_bool = true;
                 while (random_bool)
                 {
-                    parentB = rnd.Next(popSize);
+                    parentB = rnd.Next(popSize-1);
                     if (parentA != parentB)
                     {
                         random_bool = false;
                     }
                 }
+                //int k = 0;
+                //for (int j = 0; j < population.Length; j++)
+                //{
+                //    int startA =0;
+                //    int endA;
+                //    int startB=0;
+                //    int endB;
+                //    if (parentA == 0) { startA = 0; }
+                //    if (parentB == 0) { startB = 0; }
+                //    if (parentA == popSize) { endA = population.Length - 1; }
+                //    if (parentB == popSize) { endB = population.Length - 1; }
+                //    if (population[j].X == -1) { k++; }
+                //    //if (parentA == k) { startA = j; }
+                //    //if (parentB == k) { startB = j; }
+                //    //if (startA == k - 1) { endA = k; }
+                //    //if (startB == k - 1) { endB = k; }
+                //}
                 int k = 0;
-                for (int j = 0; j < population.Length; j++)
+                int start = 0;
+                int m = 0 ;
+                Array.Resize(ref pointsA, 0);
+                Array.Resize(ref pointsB, 0);
+                for (m = 0; m < population.Length; m++)
                 {
-                    int startA;
-                    int endA;
-                    int startB;
-                    int endB;
-                    if (parentA == 0) { startA = 0; }
-                    if (parentB == 0) { startB = 0; }
-                    if (parentA == popSize) { endA = population.Length - 1; }
-                    if (parentB == popSize) { endB = population.Length - 1; }
-                    if (population[j].X == -1) { k++; }
+                    if (population[m].X == -1)
+                    {
+                        //split
+                        Point[] individual = new Point[m-start];
+                        Array.Copy(population, start, individual, 0, individual.Length);
+                        if (parentA == k) { pointsA = individual; }
+                        if (parentB == k) { pointsB = individual; }
+                        start = m+1;
+                        k++;
+                    }
+                }
+                if (pointsA.Length == 0) 
+                {
+                    Array.Resize(ref pointsA, population.Length - start);
+                    Array.Copy(population, start, pointsA, 0, population.Length - start); 
+                }
+                if (pointsB.Length == 0) 
+                {
+                    Array.Resize(ref pointsB, population.Length - start);
+                    Array.Copy(population, start, pointsB, 0, population.Length - start);
+                }
 
-                }                
+            offspring = order_crossover(pointsA, pointsB);
             }
-            //offspring = order_crossover(pointsA, pointsB);
 
-            offspring = swap(offspring);
+            //offspring = swap(offspring);
         }
 
         private Point[] order_crossover(Point[] pointsA, Point[] pointsB)
         {
-            Point[] offspring = new Point[0];
+            Point[] offspring = new Point[pointsA.Length];
+            Point[] tmp = new Point[0];
 
-            return offspring;
+            int cutA = rnd.Next(pointsA.Length);
+            int cutB = 0;
+            Boolean cut = true;
+            while (cut)
+            {
+                cutB = rnd.Next(pointsA.Length);
+                if (cutA != cutB) { cut = false; }
+            }
+            if (cutA < cutB) 
+            { 
+                Array.Copy(pointsA, cutA, offspring, cutA, cutB - cutA);
+                Array.Resize(ref tmp, cutB - cutA);
+                Array.Copy(pointsA, cutA, tmp, 0, cutB - cutA);
+            }
+            else if (cutB < cutA) 
+            {
+                Array.Copy(pointsA, cutB, offspring, cutB, cutA - cutB);
+                Array.Resize(ref tmp, cutA - cutB);
+                Array.Copy(pointsA, cutB, tmp, 0, cutA - cutB);
+            }
+            for (int i = 0; i < pointsB.Length; i++)
+            {                
+                if ((offspring[i].X == 0) && (offspring[i].Y == 0) )
+                {
+                    if (pointsB[i] != pointsB[0])
+                    {
+                        for (int j = 0; j < offspring.Length; j++)
+                        {
+                            if (pointsB[i] == offspring[j])
+                            {
+                                //Punkt schon einmal in offspring
+                            }
+                        }
+                    }
+                    else
+                    {
+                        offspring[i] = pointsB[i];
+                    }
+                }
+            }
+            //offspring[0] = pointsA[0];
+            //offspring[offspring.Length - 1] = pointsA[0];
+                return offspring;
         }
 
         private Point[] swap(Point[] points)
