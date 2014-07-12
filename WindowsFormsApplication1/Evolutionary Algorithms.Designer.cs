@@ -55,16 +55,6 @@
             this.gui_evo_popu = new System.Windows.Forms.TextBox();
             this.gui_evo_strategy = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.gui_aco_iterations = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.gui_aco_heuristic = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.gui_aco_phero = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.aco_go = new System.Windows.Forms.Button();
-            this.gui_aco_ants = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.öffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +71,6 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
@@ -337,106 +326,6 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "population size (μ)";
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.gui_aco_iterations);
-            this.groupBox4.Controls.Add(this.label12);
-            this.groupBox4.Controls.Add(this.gui_aco_heuristic);
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.gui_aco_phero);
-            this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Controls.Add(this.aco_go);
-            this.groupBox4.Controls.Add(this.gui_aco_ants);
-            this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.groupBox4.Location = new System.Drawing.Point(12, 325);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(320, 146);
-            this.groupBox4.TabIndex = 15;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Ant Colony Optimization";
-            // 
-            // gui_aco_iterations
-            // 
-            this.gui_aco_iterations.Location = new System.Drawing.Point(173, 23);
-            this.gui_aco_iterations.Name = "gui_aco_iterations";
-            this.gui_aco_iterations.Size = new System.Drawing.Size(68, 21);
-            this.gui_aco_iterations.TabIndex = 21;
-            this.gui_aco_iterations.Text = "100";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 28);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(124, 16);
-            this.label12.TabIndex = 20;
-            this.label12.Text = "number of iterations";
-            // 
-            // gui_aco_heuristic
-            // 
-            this.gui_aco_heuristic.Location = new System.Drawing.Point(173, 104);
-            this.gui_aco_heuristic.Name = "gui_aco_heuristic";
-            this.gui_aco_heuristic.Size = new System.Drawing.Size(68, 21);
-            this.gui_aco_heuristic.TabIndex = 19;
-            this.gui_aco_heuristic.Text = "1";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 109);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(134, 16);
-            this.label11.TabIndex = 18;
-            this.label11.Text = "influence of heuristics";
-            // 
-            // gui_aco_phero
-            // 
-            this.gui_aco_phero.Location = new System.Drawing.Point(173, 77);
-            this.gui_aco_phero.Name = "gui_aco_phero";
-            this.gui_aco_phero.Size = new System.Drawing.Size(68, 21);
-            this.gui_aco_phero.TabIndex = 17;
-            this.gui_aco_phero.Text = "1";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 82);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(154, 16);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "influence of pheromones";
-            // 
-            // aco_go
-            // 
-            this.aco_go.AccessibleDescription = "Start local Optimization";
-            this.aco_go.AccessibleName = "startlocalOpt";
-            this.aco_go.Enabled = false;
-            this.aco_go.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.aco_go.Location = new System.Drawing.Point(270, 102);
-            this.aco_go.Name = "aco_go";
-            this.aco_go.Size = new System.Drawing.Size(40, 23);
-            this.aco_go.TabIndex = 15;
-            this.aco_go.Text = "start";
-            this.aco_go.UseVisualStyleBackColor = true;
-            // 
-            // gui_aco_ants
-            // 
-            this.gui_aco_ants.Location = new System.Drawing.Point(173, 50);
-            this.gui_aco_ants.Name = "gui_aco_ants";
-            this.gui_aco_ants.Size = new System.Drawing.Size(68, 21);
-            this.gui_aco_ants.TabIndex = 15;
-            this.gui_aco_ants.Text = "100";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 55);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(95, 16);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "number of ants";
-            // 
             // dateiToolStripMenuItem
             // 
             this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -565,7 +454,6 @@
             this.Controls.Add(this.chart);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gui_avgLength);
             this.Controls.Add(this.label4);
@@ -584,8 +472,6 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
@@ -611,7 +497,6 @@
         private System.Windows.Forms.ComboBox localOptBox;
         private System.Windows.Forms.Button localGo;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox gui_evo_strategy;
         private System.Windows.Forms.TextBox gui_evo_popu;
@@ -633,15 +518,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
-        private System.Windows.Forms.Button aco_go;
-        private System.Windows.Forms.TextBox gui_aco_ants;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox gui_aco_heuristic;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox gui_aco_phero;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox gui_aco_iterations;
-        private System.Windows.Forms.Label label12;
 
     }
 }
